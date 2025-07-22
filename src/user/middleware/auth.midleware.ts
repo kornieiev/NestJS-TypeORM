@@ -3,7 +3,6 @@
 // Добавить в запрос заголовок Authorization с токеном JWT
 // Example: "Token eyJhbGciOiJIUzI1NiIsInR..."
 
-import { JWT_SECRET } from '@app/config';
 import { ExpressRequestInterface } from '@app/types/expressRequest.interface';
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { NextFunction, Response, Request } from 'express';
@@ -42,7 +41,7 @@ export class AuthMiddleware implements NestMiddleware {
     // Поэтому мы проверяем наличие токена перед его использованием
 
     try {
-      const decoded = verify(token, JWT_SECRET);
+      const decoded = verify(token, process.env.JWT_SECRET); // Проверяем токен на валидность
       // Здесь можно добавить логику для поиска пользователя в базе данных по decoded.id
       // Например, req.user = await this.userService.findById(decoded.id);
       //   req.user = { id: decoded.id, email: decoded.email }; // Пример установки пользователя

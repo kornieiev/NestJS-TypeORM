@@ -4,7 +4,6 @@ import { Repository } from 'typeorm';
 import { UserEntity } from './user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { sign } from 'jsonwebtoken';
-import { JWT_SECRET } from '@app/config';
 import { UserResponseInterface } from './types/userResponse.interface';
 import LoginUserDto from './dto/loginUser.dto';
 import UpdateUserDto from './dto/updateUser.dto';
@@ -162,7 +161,7 @@ export class UserService {
         username: user.username,
         email: user.email,
       },
-      JWT_SECRET, // секретный ключ сохнаренный в .env файле
+      process.env.JWT_SECRET, // секретный ключ сохнаренный в .env файле
     );
   }
 
