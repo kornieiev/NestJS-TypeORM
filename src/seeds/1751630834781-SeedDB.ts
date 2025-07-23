@@ -11,9 +11,27 @@ export class SeedDb1751630834781 implements MigrationInterface {
     const password = await hash('password', 7);
 
     await queryRunner.query(
-      `INSERT INTO users (email, bio, image, password, username) VALUES
-      ('lola@mail.com', 'Bio for Lola', 'image_url', '${password}', 'lola'),
-      ('leo@mail.com', 'Bio for Leo', 'image_url', '${password}', 'leo')`,
+      `
+      INSERT INTO users (username, email, password) VALUES
+      ('user', 'user@mail.com', '${password}')
+      `,
+    );
+
+    // 3. Получаем реальные ID созданных пользователей
+    const users = await queryRunner.query(
+      `SELECT id, email FROM users WHERE email IN ('user@mail.com', 'user2@mail.com') ORDER BY email`,
+    );
+
+    const userId = users.find((u) => u.email === 'user@mail.com')?.id;
+
+    await queryRunner.query(
+      `INSERT INTO articles (slug, title, description, body, "tagList", "authorId") VALUES
+      ('article-one', 'Article one', 'Description for article one', 'Body for article one', 'tag-1,tag-2', ${userId})`,
+    );
+
+    await queryRunner.query(
+      `INSERT INTO articles (slug, title, description, body, "tagList", "authorId") VALUES
+      ('article-two', 'Article two', 'Description for article two', 'Body for article two', 'tag-3,tag-4', ${userId})`,
     );
   }
 
