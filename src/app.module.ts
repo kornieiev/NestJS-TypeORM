@@ -7,6 +7,7 @@ import ormconfig from '@app/ormconfig';
 import { UserModule } from './user/user.module';
 import { AuthMiddleware } from './user/middleware/auth.midleware';
 import { ArticleModule } from './article/article.module';
+import { ProfileModule } from './profile/profile.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { ArticleModule } from './article/article.module';
     TagModule,
     UserModule,
     ArticleModule,
+    ProfileModule,
   ], // В этой строке мы указываем для нашего app.module зависимость TypeOrmModule.
   // forRoot - это метод, который инициализирует TypeORM с конфигурацией, которую мы передаем.
   // ormconfig - это объект, который содержит настройки подключения к базе данных.
